@@ -1,0 +1,22 @@
+---
+- name: Install Apache (HTTPD), PHP, and MariaDB on Ubuntu
+  apt:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - apache2
+    - php
+    - php-mysql
+    - mariadb-server
+
+- name: Start and enable Apache service on Ubuntu
+  service:
+    name: apache2
+    state: started
+    enabled: yes
+
+- name: Start and enable MariaDB service on Ubuntu
+  service:
+    name: mysql
+    state: started
+    enabled: yes	

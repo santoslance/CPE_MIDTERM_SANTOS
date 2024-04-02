@@ -1,0 +1,18 @@
+---
+- name: Add InfluxDB YUM repository
+  yum_repository:
+    name: influxdb
+    description: InfluxDB Repository - RHEL $releasever
+    baseurl: https://repos.influxdata.com/rhel/7/x86_64/stable/
+    gpgcheck: no
+
+- name: Install InfluxDB package
+  yum:
+    name: influxdb
+    state: present
+
+- name: Start InfluxDB service
+  service:
+    name: influxdb
+    state: started
+    enabled: yes

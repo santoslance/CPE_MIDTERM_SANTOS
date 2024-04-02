@@ -1,0 +1,80 @@
+- name: Install Elasticsearch and Java
+  apt:
+    name: openjdk-8-jdk
+    state: present
+  become: yes
+
+- name: Add Elastic Stack GPG key
+  apt_key:
+    url: https://artifacts.elastic.co/GPG-KEY-elasticsearch
+    state: present
+  become: yes
+
+- name: Add Elastic Stack repository
+  apt_repository:
+    repo: deb https://artifacts.elastic.co/packages/7.x/apt stable main
+    state: present
+  become: yes
+
+- name: Install Elasticsearch package
+  apt:
+    name: elasticsearch
+    state: present
+  become: yes
+
+- name: Enable and start Elasticsearch service
+  systemd:
+    name: elasticsearch
+    enabled: yes
+    state: started
+  become: yes
+
+- name: Install Kibana package (Ubuntu)
+  apt:
+    name: kibana
+    state: present
+  when: ansible_distribution == "Ubuntu"
+  become: yes
+
+- name: Enable and start Kibana service (Ubuntu)
+  systemd:
+    name: kibana
+    enabled: yes
+    state: started
+  when: ansible_distribution == "Ubuntu"
+  become: yes
+
+- name: Add Logstash GPG key
+  apt_key:
+    url: https://artifacts.elastic.co/GPG-KEY-elasticsearch
+    state: present
+  when: ansible_distribution == "Ubuntu"
+  become: yes
+
+- name: Add Logstash repository
+  yum_repository:
+    name: logstash
+    description: Elastic repository for 7.x packages
+    baseurl: https://artifacts.elastic.co/packages/7.x/yum
+    gpgcheck: yes
+    gpgkey: https://artifacts.elastic.co/GPG-KEY-elasticsearch
+    enabled: yes
+    state: present
+  when: ansible_distribution == "CentOS"
+  become: yes
+
+- name: Install Logstash package
+  yum:
+    name: logstash
+    state: present
+  when: ansible_distribution == "CentOS"
+  become: yes
+
+- name: Enable and start Logstash service
+  systemd:
+    name: logstash
+    enabled: yes
+    state: started
+  when: ansible_distribution == "CentOS"
+  become: yes
+

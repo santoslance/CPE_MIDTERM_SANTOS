@@ -1,0 +1,14 @@
+---
+- name: Install Prometheus
+  apt:
+    name: "{{ item }}"
+    state: present
+  loop:
+    - prometheus
+
+- name: Enable and start Prometheus (Ubuntu)
+  systemd:
+    name: prometheus
+    enabled: yes
+    state: started
+  when: ansible_distribution == "Ubuntu"

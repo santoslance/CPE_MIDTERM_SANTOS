@@ -1,0 +1,27 @@
+---
+- name: Install EPEL repository (required for CentOS)
+  yum:
+    name: epel-release
+    state: present
+
+- name: Install Apache (HTTPD), PHP, and MariaDB on CentOS
+  yum:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - httpd
+    - php
+    - php-mysql
+    - mariadb-server
+
+- name: Start and enable Apache service on CentOS
+  service:
+    name: httpd
+    state: started
+    enabled: yes
+
+- name: Start and enable MariaDB service on CentOS
+  service:
+    name: mariadb
+    state: started
+    enabled: yes

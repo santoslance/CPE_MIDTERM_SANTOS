@@ -1,0 +1,62 @@
+---
+- name: Install Elasticsearch
+  yum:
+    name: java-1.8.0-openjdk   # Install Java 8 for CentOS
+    state: present
+  become: yes
+
+- name: Add Elastic Stack GPG key
+  rpm_key:
+    key: https://artifacts.elastic.co/GPG-KEY-elasticsearch
+    state: present
+  become: yes
+
+- name: Add Elastic Stack repository
+  yum_repository:
+    name: elasticsearch
+    description: Elastic repository for Elasticsearch
+    baseurl: https://artifacts.elastic.co/packages/7.x/yum
+    gpgcheck: yes
+    gpgkey: https://artifacts.elastic.co/GPG-KEY-elasticsearch
+    enabled: yes
+  become: yes
+
+- name: Install Elasticsearch package
+  yum:
+    name: elasticsearch
+    state: present
+  become: yes
+
+- name: Enable and start Elasticsearch service
+  systemd:
+    name: elasticsearch
+    enabled: yes
+    state: started
+  become: yes
+
+- name: Install Kibana package
+  yum:
+    name: kibana
+    state: present
+  become: yes
+
+- name: Enable and start Kibana service
+  systemd:
+    name: kibana
+    enabled: yes
+    state: started
+  become: yes
+
+- name: Install Logstash package
+  yum:
+    name: logstash
+    state: present
+  become: yes
+
+- name: Enable and start Logstash service
+  systemd:
+    name: logstash
+    enabled: yes
+    state: started
+  become: yes
+

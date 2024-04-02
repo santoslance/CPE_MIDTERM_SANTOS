@@ -1,0 +1,31 @@
+---
+- name: Download Prometheus
+  get_url:
+    url: https://github.com/prometheus/prometheus/releases/download/v2.30.3/prometheus-2.30.3.linux-amd64.tar.gz
+    dest: /tmp/prometheus.tar.gz
+
+- name: Extract Prometheus
+  unarchive:
+    src: /tmp/prometheus.tar.gz
+    dest: /opt/prometheus
+    remote_src: yes
+    creates: /opt/prometheus/prometheus
+
+- name: Create Prometheus Configuration Directory
+  file:
+    path: /etc/prometheus
+    state: directory
+    owner: root
+    group: root
+    mode: '0755'
+
+- name: Copy Prometheus Configuration
+  template:
+    src: roles/prometheus_CentOS/templates/prometheus.yml.j2
+    dest: /etc/prometheus/prometheus.yml
+    owner: root
+    group: root
+    mode: '0644'
+
+
+

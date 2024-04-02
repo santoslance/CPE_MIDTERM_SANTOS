@@ -1,0 +1,62 @@
+---
+- hosts: all
+  become: true
+  pre_tasks:
+
+  - name: install updates (CentOS)
+    tags: always
+    yum:
+      name: "*"
+      update_only: yes
+      update_cache: yes
+    when: ansible_distribution == "CentOS"
+
+- hosts: install_monitoringtools_CentOS
+  become: true
+  roles:
+    - name: elasticstack_CentOS
+
+- hosts: install_monitoringtools_CentOS
+  become: true
+  roles:
+    - name: grafana_CentOS
+
+- hosts: install_monitoringtools_CentOS
+  become: true
+  roles:
+    - name: influxdb_CentOS
+
+- hosts: install_monitoringtools_CentOS
+  become: true
+  roles:
+    - name: lampstack_CentOS
+
+- hosts: install_monitoringtools_CentOS
+  become: true
+  roles:
+    - name: prometheus_CentOS
+
+- hosts: install_monitoringtools_Ubuntu
+  become: true
+  roles:
+    - name: elasticstack_Ubuntu
+
+- hosts: install_monitoringtools_Ubuntu
+  become: true
+  roles:
+    - name: grafana_Ubuntu
+
+- hosts: install_monitoringtools_Ubuntu
+  become: true
+  roles:
+    - name: influxdb_Ubuntu
+
+- hosts: install_monitoringtools_Ubuntu
+  become: true
+  roles:
+    - name: lampstack_Ubuntu
+
+- hosts: install_monitoringtools_Ubuntu
+  become: true
+  roles:
+    - name: prometheus_Ubuntu

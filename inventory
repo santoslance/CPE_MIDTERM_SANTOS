@@ -1,0 +1,6 @@
+[install_monitoringtools_Ubuntu]
+192.168.56.101
+
+[install_monitoringtools_CentOS]
+192.168.56.104
+
